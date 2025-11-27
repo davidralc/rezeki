@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { MOCK_TASKS } from '../constants';
 import { Task, TaskType } from '../types';
 import TaskCard from '../components/TaskCard';
-import { Filter, Search, Star, Zap, ArrowUpDown } from 'lucide-react';
+import { Search, Star, Zap, ArrowUpDown } from 'lucide-react';
 
 const Earn = () => {
   const [filter, setFilter] = useState<string>('ALL');
@@ -97,36 +97,16 @@ const Earn = () => {
           <p className="text-slate-400">Selesaikan tugas untuk mendapatkan uang nyata.</p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-          {/* Sorting Dropdown */}
-          <div className="relative min-w-[180px]">
-            <ArrowUpDown className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full bg-card border border-slate-700 text-white pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:border-primary appearance-none cursor-pointer"
-            >
-              <option value="RECOMMENDED">Rekomendasi</option>
-              <option value="REWARD_DESC">Bayaran Tertinggi</option>
-              <option value="REWARD_ASC">Bayaran Terendah</option>
-              <option value="TIME_ASC">Waktu Tercepat</option>
-              <option value="DIFFICULTY_ASC">Paling Mudah</option>
-            </select>
-            {/* Custom Arrow for Select */}
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-500">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-            </div>
-          </div>
-
+        <div className="w-full sm:w-64">
           {/* Search Bar */}
-          <div className="relative w-full sm:w-64">
+          <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
             <input 
               type="text" 
               placeholder="Cari tugas..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="bg-card border border-slate-700 text-white pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:border-primary w-full"
+              className="bg-card border border-slate-700 text-white pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:border-primary w-full shadow-sm"
             />
           </div>
         </div>
@@ -167,7 +147,7 @@ const Earn = () => {
       )}
 
       {/* Filter Tabs */}
-      <div className="border-b border-slate-700">
+      <div className="border-b border-slate-700 mb-6">
         <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
            {categories.map(cat => (
              <button
@@ -187,11 +167,33 @@ const Earn = () => {
 
       {/* Main Grid */}
       <div>
-        <div className="flex justify-between items-end mb-4">
-          <h2 className="text-xl font-bold text-white">
-            {filter === 'ALL' ? 'Semua Tugas' : categories.find(c => c.value === filter)?.label}
-          </h2>
-          <span className="text-xs text-slate-500">{filteredTasks.length} tugas ditemukan</span>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+          <div className="flex items-end gap-3">
+            <h2 className="text-xl font-bold text-white">
+              {filter === 'ALL' ? 'Semua Tugas' : categories.find(c => c.value === filter)?.label}
+            </h2>
+            <span className="text-sm text-slate-500 mb-1">{filteredTasks.length} tugas ditemukan</span>
+          </div>
+
+          {/* Sorting Dropdown */}
+          <div className="relative min-w-[180px] w-full md:w-auto">
+            <ArrowUpDown className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={16} />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="w-full bg-slate-800 border border-slate-700 text-white pl-9 pr-8 py-2 rounded-lg focus:outline-none focus:border-primary appearance-none cursor-pointer text-sm hover:bg-slate-700 transition-colors shadow-sm"
+            >
+              <option value="RECOMMENDED">Rekomendasi</option>
+              <option value="REWARD_DESC">Bayaran Tertinggi</option>
+              <option value="REWARD_ASC">Bayaran Terendah</option>
+              <option value="TIME_ASC">Waktu Tercepat</option>
+              <option value="DIFFICULTY_ASC">Paling Mudah</option>
+            </select>
+            {/* Custom Arrow for Select */}
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-500">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+          </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
